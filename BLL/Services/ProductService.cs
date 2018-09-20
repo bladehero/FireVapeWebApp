@@ -1,36 +1,61 @@
-﻿using BLL.DTO;
+﻿using AutoMapper;
+using BLL.DTO;
+using BLL.Extensions;
 using BLL.Interfaces;
-using System;
+using DAL.Components;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BLL.Services
 {
-    class LiquidService : BaseService, IProductService<LiquidDTO>
+    public class ProductService : BaseService, IProductService<ProductDTO>
     {
-        public LiquidService()
-        {
+        private IMapper componentTypeMapper;
+        private IMapper producerMapper;
+        private IMapper productMapper;
 
+        public ProductService(string connectionString) : base(connectionString)
+        {
+            componentTypeMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<ComponentType, ComponentTypeDTO>().AfterMap((c, cdto) =>
+                {
+                    cdto.ModifiedByClient = IdentityMapper.GetClientById(c.ModifiedBy);
+                    cdto.CreatedByClient = IdentityMapper.GetClientById(c.CreatedBy);
+                });
+            }).CreateMapper();
+            producerMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Producer, ProducerDTO>().AfterMap((p, pdto) =>
+                {
+                    pdto.ModifiedByClient = IdentityMapper.GetClientById(p.ModifiedBy);
+                    pdto.CreatedByClient = IdentityMapper.GetClientById(p.CreatedBy);
+                });
+            }).CreateMapper();
+            productMapper = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Product, ProductDTO>().AfterMap((p, pdto) =>
+                {
+                    pdto.ModifiedByClient = IdentityMapper.GetClientById(p.ModifiedBy);
+                    pdto.CreatedByClient = IdentityMapper.GetClientById(p.CreatedBy);
+                    pdto.Producer = producerMapper.Map<ProducerDTO>(Database.Lineages.FindById(p.ProducerId));
+                    pdto.ComponentTypeDTO = componentTypeMapper.Map<ComponentTypeDTO>(Database.Lineages.FindById(p.TypeId));
+                });
+            }).CreateMapper();
         }
 
-        public IEnumerable<LiquidDTO> FindAll()
+        public IEnumerable<ProductDTO> FindAll()
         {
-            
+            return productMapper.MapCollection<Product, ProductDTO>(Database.Products.FindAll());
         }
 
-        public IEnumerable<LiquidDTO> FindById()
+        public ProductDTO FindById(int? id)
         {
-            
+            return productMapper.Map<ProductDTO>(Database.Products.FindById(id));
         }
 
-        public IEnumerable<LiquidDTO> FindByTypeId()
+        public IEnumerable<ProductDTO> FindByTypeId(int? id)
         {
-            
-        }
-
-        public IEnumerable<LiquidDTO> Random(int count)
-        {
-            
+            return productMapper.MapCollection<Product, ProductDTO>(Database.Products.FindByTypeId(id));
         }
     }
 }

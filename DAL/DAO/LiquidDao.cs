@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using DAL.Liquids;
 using System.Linq;
-using System;
 
 namespace DAL.DAO
 {
@@ -12,8 +11,10 @@ namespace DAL.DAO
             TableName = "[dbo].[Liquids]";
         }
 
-        public IEnumerable<Liquid> FindByLineage(int id)
+        public IEnumerable<Liquid> FindByLineage(int? id)
         {
+            if (id == null)
+                return null;
             return FindAll().Where(l => l.LineageId == id);
         }
         public IEnumerable<Liquid> FindByLineage(Lineage lineage)

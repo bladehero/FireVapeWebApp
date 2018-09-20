@@ -1,12 +1,12 @@
 ﻿namespace BLL.DTO
 {
-    class LiquidDTO
+    public class LiquidDTO : BaseDTO, ICreatorableDTO
     {
         public string Name { get; set; }
         public LineageDTO Lineage { get; set; }
         public string Description { get; set; }
         public string ImageLink { get; set; }
-
-        public ClientDTO Client { get; set; }
+        public ClientDTO CreatedByClient { get; set; }
+        public ClientDTO ModifiedByClient { get; set; }
     }
 }

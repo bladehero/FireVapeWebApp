@@ -6,10 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\BLL\BLL.csproj" />
   </ItemGroup>
 
 </Project>

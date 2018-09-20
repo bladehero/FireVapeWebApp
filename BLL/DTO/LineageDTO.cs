@@ -1,10 +1,9 @@
 ﻿namespace BLL.DTO
 {
-    class LineageDTO
+    public class LineageDTO : BaseDTO, ICreatorableDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-
-        public ClientDTO Client { get; set; }
+        public ClientDTO CreatedByClient { get; set; }
+        public ClientDTO ModifiedByClient { get; set; }
     }
 }

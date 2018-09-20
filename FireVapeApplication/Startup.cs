@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BLL.DTO;
+using BLL.Interfaces;
+using BLL.Services;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +29,11 @@ namespace FireVapeApplication
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            var connection = "Data Source=localhost;Persist Security Info=False;Initial Catalog=FVAppDb;User ID=sa;Password=sa;";
+
+            services.AddSingleton<IProductService<LiquidDTO>>(s => new LiquidService(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

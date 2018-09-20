@@ -2,9 +2,8 @@
 
 namespace BLL.DTO
 {
-    public class ClientDTO
+    public class ClientDTO : BaseDTO
     {
-        public int Id { get; set; }
         public string Login { get; set; }
         public RoleDTO Role { get; set; }
 
