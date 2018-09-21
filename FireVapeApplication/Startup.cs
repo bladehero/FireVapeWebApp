@@ -34,6 +34,7 @@ namespace FireVapeApplication
             var connection = "Data Source=localhost;Persist Security Info=False;Initial Catalog=FVAppDb;User ID=sa;Password=sa;";
 
             services.AddSingleton<IProductService<LiquidDTO>>(s => new LiquidService(connection));
+            services.AddSingleton<IProductService<ProductDTO>>(s => new ProductService(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

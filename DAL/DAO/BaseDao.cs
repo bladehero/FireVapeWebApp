@@ -101,7 +101,7 @@ namespace DAL.DAO
                 }
             }
         }
-        public virtual bool Delete(int id)
+        public virtual bool Delete(int? id)
         {
             try
             {

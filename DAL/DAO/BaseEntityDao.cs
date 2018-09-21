@@ -135,8 +135,11 @@ namespace DAL.DAO
             }
         }
 
-        public override bool Delete(int id)
+        public override bool Delete(int? id)
         {
+            if (id == null)
+                return false;
+
             string sql = $"UPDATE {TableName} SET IsDeleted = 1 WHERE Id = {id}";
 
             try

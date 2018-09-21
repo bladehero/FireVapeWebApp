@@ -13,7 +13,28 @@ namespace BLL.Infrastructure
 
         public ClientDTO GetClientById(int id)
         {
-            return clientMapper.Map<ClientDTO>(unitOfWork.Clients.FindById(id));
+            var client = unitOfWork.Clients.FindById(id);
+            if (client == null)
+            {
+                return null;
+            }
+            return clientMapper.Map<ClientDTO>(client);
+        }
+        public ClientDTO MapToDTO(Client client)
+        {
+            if (client == null)
+            {
+                return null;
+            }
+            return clientMapper.Map<ClientDTO>(client);
+        }
+        public Client Map(ClientDTO client)
+        {
+            if (client == null)
+            {
+                return null;
+            }
+            return clientMapper.Map<Client>(client);
         }
 
         public IdentityMapper(UnitOfWork unitOfWork)
@@ -22,12 +43,17 @@ namespace BLL.Infrastructure
             roleMapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Role, RoleDTO>();
+                cfg.CreateMap<RoleDTO, Role>();
             }).CreateMapper();
             clientMapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Client, ClientDTO>().AfterMap((c, cdto) =>
                 {
                     cdto.Role = roleMapper.Map<RoleDTO>(unitOfWork.Clients.FindById(c.RoleId));
+                });
+                cfg.CreateMap<ClientDTO, Client>().AfterMap((cdto, c) =>
+                {
+                    c.RoleId = cdto.Role.Id;
                 });
             }).CreateMapper();
         }

@@ -4,7 +4,7 @@
     {
         public string Name { get; set; }
         public ProducerDTO Producer { get; set; }
-        public ComponentTypeDTO ComponentTypeDTO { get; set; }
+        public ComponentTypeDTO ComponentType { get; set; }
         public double Cost { get; set; }
         public int Count { get; set; }
         public double Price { get; set; }

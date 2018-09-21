@@ -1,8 +1,7 @@
 *.suo
 *.user
 packages
-.vs
+**/.vs
 **/obj
 **/bin
-*.cache
 *.cache

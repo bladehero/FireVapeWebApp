@@ -22,6 +22,11 @@ namespace BLL.Services
                     ldto.ModifiedByClient = IdentityMapper.GetClientById(l.ModifiedBy);
                     ldto.CreatedByClient = IdentityMapper.GetClientById(l.CreatedBy);
                 });
+                cfg.CreateMap<LineageDTO, Lineage>().BeforeMap((ldto, l) =>
+                {
+                    l.ModifiedBy = ldto.ModifiedByClient.Id;
+                    l.CreatedBy = ldto.CreatedByClient.Id;
+                });
             }).CreateMapper();
             liquidMapper = new MapperConfiguration(cfg =>
             {
@@ -31,9 +36,20 @@ namespace BLL.Services
                     ldto.CreatedByClient = IdentityMapper.GetClientById(l.CreatedBy);
                     ldto.Lineage = lineageMapper.Map<LineageDTO>(Database.Lineages.FindById(l.LineageId));
                 });
+                cfg.CreateMap<LiquidDTO, Liquid>().BeforeMap((ldto, l) =>
+                {
+                    l.ModifiedBy = ldto.ModifiedByClient.Id;
+                    l.CreatedBy = ldto.CreatedByClient.Id;
+                    l.LineageId = ldto.Lineage.Id;
+                });
             }).CreateMapper();
         }
 
+        public long Add(LiquidDTO item)
+        {
+            var liquid = liquidMapper.Map<Liquid>(item);
+            return Database.Liquids.Insert(liquid);
+        }
         public IEnumerable<LiquidDTO> FindAll()
         {
             return liquidMapper.MapCollection<Liquid, LiquidDTO>(Database.Liquids.FindAll());
@@ -45,6 +61,19 @@ namespace BLL.Services
         public IEnumerable<LiquidDTO> FindByTypeId(int? id)
         {
             return liquidMapper.MapCollection<Liquid, LiquidDTO>(Database.Liquids.FindByLineage(id));
+        }
+        public bool Remove(LiquidDTO item)
+        {
+            return RemoveById(item.Id);
+        }
+        public bool RemoveById(int? id)
+        {
+            return Database.Liquids.Delete(id);
+        }
+        public bool Update(LiquidDTO item)
+        {
+            var liquid = liquidMapper.Map<Liquid>(item);
+            return Database.Liquids.Update(liquid);
         }
     }
 }
