@@ -10,11 +10,11 @@ using BLL.DTO;
 
 namespace FireVapeApplication.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         IProductService<LiquidDTO> liquidService;
 
-        public HomeController(IProductService<LiquidDTO> liquidService)
+        public HomeController(IProductService<LiquidDTO> liquidService, IAccountService accountService) : base(accountService)
         {
             this.liquidService = liquidService;
         }

@@ -35,6 +35,7 @@ namespace FireVapeApplication
 
             services.AddSingleton<IProductService<LiquidDTO>>(s => new LiquidService(connection));
             services.AddSingleton<IProductService<ProductDTO>>(s => new ProductService(connection));
+            services.AddSingleton<IAccountService>(s => new ClientService(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

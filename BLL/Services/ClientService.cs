@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BLL.Services
 {
-    class ClientService : BaseService, IAccountService
+    public class ClientService : BaseService, IAccountService
     {
         public ClientService(string connectionString) : base(connectionString) { }
 
@@ -38,6 +38,7 @@ namespace BLL.Services
         #region Helpers
         private string GetHashPassword(string password, string salt = "0de$$aF!r3Vap3")
         {
+            salt = null;
             password = password + salt;
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {

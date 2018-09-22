@@ -17,6 +17,10 @@ namespace DAL.DAO
         }
         public Client FindByToken(string token)
         {
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return null;
+            }
             return FindAll(c => c.Token == token).FirstOrDefault();
         }
         public override long Insert(Client entity)
