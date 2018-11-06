@@ -34,11 +34,16 @@
         $(document).ready(function () {
             $('#logout').click(function () {
                 $.removeCookie('@FireVapeApplication.Controllers.BaseController.AuthenticateKey', { path: "/" });
-                window.location.href = '@Url.Action("Index", "Account", new { @area = "Admin" })';
+                var url = '@Url.Action("Index", "Account", new { @area = "Admin" })';
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        $('html').html(data);
+                    }
+                });
             });
             $('.header-link').click(function () {
-                debugger
-
                 var searchUrl = $(this).data('href-search');
                 if (searchUrl) {
                     $.ajax({
@@ -49,7 +54,6 @@
                         }
                     });
                 }
-
                 var url = $(this).data('href');
                 $.ajax({
                     type: 'GET',
