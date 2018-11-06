@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace BLL.Services
 {
-    public class LiquidService : BaseService, IProductService<LiquidDTO>
+    public class LiquidService : BaseService, ICrudService<LiquidDTO>
     {
         private IMapper lineageMapper;
         private IMapper liquidMapper;
@@ -57,10 +57,6 @@ namespace BLL.Services
         public LiquidDTO FindById(int? id)
         {
             return liquidMapper.Map<LiquidDTO>(Database.Liquids.FindById(id));
-        }
-        public IEnumerable<LiquidDTO> FindByTypeId(int? id)
-        {
-            return liquidMapper.MapCollection<Liquid, LiquidDTO>(Database.Liquids.FindByLineage(id));
         }
         public bool Remove(LiquidDTO item)
         {

@@ -49,7 +49,7 @@ namespace BLL.Infrastructure
             {
                 cfg.CreateMap<Client, ClientDTO>().AfterMap((c, cdto) =>
                 {
-                    cdto.Role = roleMapper.Map<RoleDTO>(unitOfWork.Clients.FindById(c.RoleId));
+                    cdto.Role = roleMapper.Map<RoleDTO>(unitOfWork.Roles.FindById(c.RoleId));
                 });
                 cfg.CreateMap<ClientDTO, Client>().AfterMap((cdto, c) =>
                 {

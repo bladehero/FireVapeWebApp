@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FireVapeApplication
 {
+    [Area("Admin")]
     public class Program
     {
         public static void Main(string[] args)

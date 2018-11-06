@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BLL.Services
 {
-    public class ProductService : BaseService, IProductService<ProductDTO>
+    public class ProductService : BaseService, ICrudService<ProductDTO>
     {
         private IMapper componentTypeMapper;
         private IMapper producerMapper;
@@ -72,10 +72,6 @@ namespace BLL.Services
         public ProductDTO FindById(int? id)
         {
             return productMapper.Map<ProductDTO>(Database.Products.FindById(id));
-        }
-        public IEnumerable<ProductDTO> FindByTypeId(int? id)
-        {
-            return productMapper.MapCollection<Product, ProductDTO>(Database.Products.FindByTypeId(id));
         }
         public bool Remove(ProductDTO item)
         {

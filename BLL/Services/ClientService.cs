@@ -11,6 +11,7 @@ namespace BLL.Services
         public ClientService(string connectionString) : base(connectionString) { }
 
         public ClientDTO Client { get; set; }
+        public bool IsAuthorized => Client == null;
         public void SignUp(ClientDTO client)
         {
             Login(IdentityMapper.Map(client));
@@ -21,8 +22,13 @@ namespace BLL.Services
             return Client;
         }
         public ClientDTO Authenticate(string token)
-        {            
-            Login(Database.Clients.FindByToken(token));
+        {
+            var client = Database.Clients.FindByToken(token);
+            Client = null;
+            if (client != null)
+            {
+                Client = IdentityMapper.MapToDTO(client);
+            }
             return Client;
         }
         public void Logout()
@@ -34,11 +40,18 @@ namespace BLL.Services
             Client.Token = null;
             Database.Clients.Update(IdentityMapper.Map(Client));
         }
+        public bool HasPermission(RoleType role)
+        {
+            if (Client != null)
+            {
+                return Client.Role.Name == role.ToString().ToLower();
+            }
+            return false;
+        }
 
         #region Helpers
-        private string GetHashPassword(string password, string salt = "0de$$aF!r3Vap3")
+        private string GetHashPassword(string password, string salt = "")/*"0de$$aF!r3Vap3"*/
         {
-            salt = null;
             password = password + salt;
             using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
             {
@@ -67,15 +80,15 @@ namespace BLL.Services
             }
             var now = DateTime.Now;
             Client = IdentityMapper.MapToDTO(client);
-            Client.Token = CreateToken(Client, now.ToLongDateString());
+            Client.Token = CreateToken(Client, now.ToLongTimeString() + now.ToLongDateString());
             Client.LoginDate = now;
             if (Database.Clients.FindById(client.Id) == null)
             {
-                Database.Clients.Insert(client);
+                Database.Clients.Insert(IdentityMapper.Map(Client));
             }
             else
             {
-                Database.Clients.Update(client);
+                Database.Clients.Update(IdentityMapper.Map(Client));
             }
         }
         #endregion

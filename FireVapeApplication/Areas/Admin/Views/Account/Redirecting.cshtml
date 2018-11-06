@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Redirecting";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<p class="display-4 text-success text-center mt-5">Переводим на главную страницу...</p>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            url = '@Url.Action("Index", "Home", new { @area = "Admin"})';
+            $(location).attr("href", url);
+        });
+    </script>
+}

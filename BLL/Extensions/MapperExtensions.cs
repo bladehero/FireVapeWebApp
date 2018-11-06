@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BLL.Extensions
 {
-    static class MapperExtensions
+    public static class MapperExtensions
     {
         public static IEnumerable<D> MapCollection<T,D>(this IMapper mapper, IEnumerable<T> collection)
         {

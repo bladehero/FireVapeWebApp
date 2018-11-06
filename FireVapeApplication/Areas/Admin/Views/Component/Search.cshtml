@@ -1,0 +1,21 @@
+﻿@model FireVapeApplication.ViewModels.SearchComponentVM
+<div class="row">
+    <div class="col-4">
+        @Html.LabelFor(m => m.Name)
+        @Html.EditorFor(m => m.Name)
+
+        @Html.LabelFor(m => m.Producer)
+        <label asp-for="Producer"></label>
+        <select asp-for="Producer" asp-items="@ViewBag.Producers" />
+
+        <label asp-for="WithDeleted"></label>
+        <input type="checkbox" asp-for="WithDeleted" />
+    </div>
+    <div class="col-4">
+        <label asp-for="ComponentType"></label>
+        <select asp-for="ComponentType" asp-items="@ViewBag.ComponentTypes" />
+
+        <label asp-for="Count"></label>
+        <input type="number" asp-for="Count" />
+    </div>
+</div>

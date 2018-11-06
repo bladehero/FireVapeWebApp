@@ -20,6 +20,8 @@ namespace DAL
         private ProducerDao producers;
         private ProductDao products;
         private RoleDao roles;
+        private ComponentDao components;
+        private LiquidComponentDao liquidComponents;
 
 
         public RoleDao Roles
@@ -92,6 +94,24 @@ namespace DAL
                 if (products == null)
                     products = new ProductDao(connectionString);
                 return products;
+            }
+        }
+        public ComponentDao Components
+        {
+            get
+            {
+                if (components == null)
+                    components = new ComponentDao(connectionString);
+                return components;
+            }
+        }
+        public LiquidComponentDao LiquidComponents
+        {
+            get
+            {
+                if (liquidComponents == null)
+                    liquidComponents = new LiquidComponentDao(connectionString);
+                return liquidComponents;
             }
         }
     }

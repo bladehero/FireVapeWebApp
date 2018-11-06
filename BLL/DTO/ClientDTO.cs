@@ -5,6 +5,7 @@ namespace BLL.DTO
     public class ClientDTO : BaseDTO
     {
         public string Login { get; set; }
+        public string Password { get; set; }
         public RoleDTO Role { get; set; }
 
         public string FirstName { get; set; }

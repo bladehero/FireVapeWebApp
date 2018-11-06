@@ -33,30 +33,28 @@ namespace FireVapeApplication
 
             var connection = "Data Source=localhost;Persist Security Info=False;Initial Catalog=FVAppDb;User ID=sa;Password=sa;";
 
-            services.AddSingleton<IProductService<LiquidDTO>>(s => new LiquidService(connection));
-            services.AddSingleton<IProductService<ProductDTO>>(s => new ProductService(connection));
+            services.AddSingleton<ICrudService<ProducerDTO>>(s => new ProducerService(connection));
+            services.AddSingleton<ICrudService<ComponentTypeDTO>>(s => new ComponentTypeService(connection));
+            services.AddSingleton<ICrudService<LiquidDTO>>(s => new LiquidService(connection));
+            services.AddSingleton<ICrudService<ProductDTO>>(s => new ProductService(connection));
+            services.AddSingleton<ICrudService<ComponentDTO>>(s => new ComponentService(connection));
             services.AddSingleton<IAccountService>(s => new ClientService(connection));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
+            app.UseExceptionHandler("/Home/Error");
+            //app.UseHsts();
+            
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
-
+            //app.UseCookiePolicy();
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areas",
+                    template: "{area:exists}/{controller}/{action}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

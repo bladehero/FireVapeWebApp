@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse lead text-black-50" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link header-link" data-href-search="@Url.Action("Search","Component", new { @area = "Admin" })" data-href="@Url.Action("Index", "Component", new { @area = "Admin" })" id="component-link">Компоненты</a>
+                <a class="nav-item nav-link header-link" data-href-search="@Url.Action("Search","Product", new { @area = "Admin" })" data-href="@Url.Action("Index", "Product", new { @area = "Admin" })" id="product-link">На продажу</a>
+                <a class="nav-item nav-link header-link" data-href-search="@Url.Action("Search","Liquid", new { @area = "Admin" })" data-href="@Url.Action("Index", "Liquid", new { @area = "Admin" })" id="liquid-link">Жидкости</a>
+                <a class="nav-item nav-link header-link" data-href-search="@Url.Action("Search","Order", new { @area = "Admin" })" data-href="@Url.Action("Index", "Order", new { @area = "Admin" })" id="order-link" }>Заказы</a>
+                <a class="nav-item nav-link header-link" data-href="@Url.Action("Index", "Settings", new { @area = "Admin" })" id="settings-link">Настройки</a>
+                <button class="btn btn-outline-light form-inline" id="logout">Выйти</button>
+            </div>
+        </div>
+    </nav>
+    <div class="mt-5">
+        @RenderBody()
+    </div>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-cookie/jquery.cookie.js"></script>
+    <script src="~/lib/twitter-bootstrap/js/bootstrap.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('#logout').click(function () {
+                $.removeCookie('@FireVapeApplication.Controllers.BaseController.AuthenticateKey', { path: "/" });
+                window.location.href = '@Url.Action("Index", "Account", new { @area = "Admin" })';
+            });
+            $('.header-link').click(function () {
+                debugger
+
+                var searchUrl = $(this).data('href-search');
+                if (searchUrl) {
+                    $.ajax({
+                        type: 'GET',
+                        url: searchUrl,
+                        success: function (data) {
+                            $('#search-header').html(data);
+                        }
+                    });
+                }
+
+                var url = $(this).data('href');
+                $.ajax({
+                    type: 'GET',
+                    url: url,
+                    success: function (data) {
+                        $('#main-header').html(data);
+                    }
+                });
+            });
+        });
+
+        function updateActiveLink(id) {
+            $('.nav-link').removeClass('active');
+            $('#' + id).addClass('active');
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

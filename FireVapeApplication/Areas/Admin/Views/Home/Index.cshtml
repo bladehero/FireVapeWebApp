@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_PanelLayout.cshtml";
+    var name = ViewBag.Client.FirstName;
+}
+
+<div class="container">
+    <div class="row" id="search-header">
+    </div>
+    <div class="row justify-content-center">
+        <div class="col" id="main-header">
+            <div class="row justify-content-center">
+                <div class="jumbotron jumbotron-fluid shadow-sm">
+                    <div class="container">
+                        <h1 class="display-4">Здравствуйте, @name!</h1>
+                        <hr class="my-4">
+                        <p class="lead text-center">Вы зашли в панель администратора. В верхнем меню можете вы можете переключаться между разделами.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

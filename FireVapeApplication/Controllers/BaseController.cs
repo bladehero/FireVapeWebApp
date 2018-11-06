@@ -15,14 +15,6 @@ namespace FireVapeApplication.Controllers
         {
             AccountService = accountService;
         }
-
-        protected void SetToken(string token)
-        {
-            CookieOptions option = new CookieOptions();
-            option.Expires = DateTime.MaxValue;
-
-            Response.Cookies.Append(AuthenticateKey, token, option);
-        }
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             Request.Cookies.TryGetValue(AuthenticateKey, out string value);
