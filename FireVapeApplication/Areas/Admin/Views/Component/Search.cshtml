@@ -1,21 +1,58 @@
 ﻿@model FireVapeApplication.ViewModels.SearchComponentVM
-<div class="row">
-    <div class="col-4">
-        @Html.LabelFor(m => m.Name)
-        @Html.EditorFor(m => m.Name)
 
-        @Html.LabelFor(m => m.Producer)
-        <label asp-for="Producer"></label>
-        <select asp-for="Producer" asp-items="@ViewBag.Producers" />
-
-        <label asp-for="WithDeleted"></label>
-        <input type="checkbox" asp-for="WithDeleted" />
-    </div>
-    <div class="col-4">
-        <label asp-for="ComponentType"></label>
-        <select asp-for="ComponentType" asp-items="@ViewBag.ComponentTypes" />
-
-        <label asp-for="Count"></label>
-        <input type="number" asp-for="Count" />
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <div class="col">
+                        @Html.LabelFor(m => m.Name)
+                    </div>
+                    <div class="col">
+                        @Html.EditorFor(m => m.Name)
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <div class="col">
+                        @Html.LabelFor(m => m.Count)
+                    </div>
+                    <div class="col">
+                        @Html.EditorFor(m => m.Count, new { htmlAttributes = new { @type = "number", @min = "0", @step = "1", @value = "0" } })
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <div class="col">
+                        @Html.LabelFor(m => m.Producer)
+                    </div>
+                    <div class="col">
+                        @Html.DropDownListFor(m => m.Producer, ViewBag.Producers as SelectList)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <div class="col">
+                        @Html.LabelFor(m => m.ComponentType)
+                    </div>
+                    <div class="col">
+                        @Html.DropDownListFor(m => m.ComponentType, ViewBag.ComponentTypes as SelectList)
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <div class="col">
+                        @Html.CheckBoxFor(x => x.WithDeleted)
+                        @Html.LabelFor(m => m.WithDeleted)
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
